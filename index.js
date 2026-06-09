@@ -20,11 +20,12 @@ client.on('messageCreate', async (message) => {
   if (message.content.startsWith('!accept')) {
     const args = message.content.split(' ');
 
-    const discordId = args[1];
-    const studentId = args[2];
-    const major = args.slice(3).join(' ');
+const discordId = args[1];
+const studentId = args[2];
+const classification = args[args.length - 1];
+const major = args.slice(3, -1).join(' ');
 
-    if (!discordId || !studentId || !major) {
+    if (!discordId || !studentId || !major || !classification) {
       return message.reply(
         'Usage: !accept <DiscordID> <StudentID> <Major>'
       );
