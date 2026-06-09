@@ -3,7 +3,6 @@ const { Client, GatewayIntentBits } = require(‘discord.js’);
 const client = new Client({
 intents: [
 GatewayIntentBits.Guilds,
-GatewayIntentBits.GuildMembers,
 GatewayIntentBits.GuildMessages,
 GatewayIntentBits.MessageContent,
 GatewayIntentBits.DirectMessages
@@ -18,11 +17,14 @@ client.on(‘messageCreate’, async (message) => {
 
 if (message.author.bot) return;
 
-console.log(message.content);
-
 if (message.content.startsWith(’!accept’)) {
 
 const args = message.content.split(' ');
+if (args.length < 4) {
+  return message.reply(
+    'Usage: !accept DISCORD_ID STUDENT_ID MAJOR'
+  );
+}
 const discordId = args[1];
 const studentId = args[2];
 const major = args.slice(3).join(' ');
@@ -44,10 +46,10 @@ Status: Active
 Roll Tide!`
 );
 
-  await message.reply('Acceptance letter sent.');
-} catch (err) {
-  console.error(err);
-  await message.reply('Failed to send DM.');
+  await message.reply('✅ Acceptance letter sent.');
+} catch (error) {
+  console.error(error);
+  await message.reply('❌ Failed to send DM.');
 }
 
 }
