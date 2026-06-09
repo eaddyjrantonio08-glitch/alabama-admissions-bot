@@ -32,7 +32,25 @@ client.on('messageCreate', async (message) => {
 
     try {
       const user = await client.users.fetch(discordId);
+const guild = await client.guilds.fetch("1512878395133001910");
+const member = await guild.members.fetch(discordId);
 
+const INCOMING_STUDENT_ROLE = "1513255118932279527";
+
+const CLASSIFICATION_ROLES = {
+    Freshman: "1513257295302103111",
+    Sophomore: "1513257536399085730",
+    Junior: "1513257929308897310",
+    Senior: "1513258398303392008"
+};
+
+await member.roles.add(INCOMING_STUDENT_ROLE);
+
+const classification = "Freshman"; // change later if needed
+
+if (CLASSIFICATION_ROLES[classification]) {
+    await member.roles.add(CLASSIFICATION_ROLES[classification]);
+}
       await user.send(`
 🎓 UNIVERSITY OF ALABAMA ACCEPTANCE LETTER
 
@@ -42,7 +60,7 @@ You have been accepted to the University of Alabama.
 
 Student ID: ${studentId}
 Major: ${major}
-Classification: Freshman
+Classification: ${classification}
 Status: Active
 
 Roll Tide!
