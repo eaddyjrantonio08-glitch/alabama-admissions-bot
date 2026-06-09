@@ -1,1 +1,12 @@
-
+{
+  "name": "alabama-admissions-bot",
+  "version": "1.0.0",
+  "description": "University Admissions Bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.15.3"
+  }
+}
