@@ -9,7 +9,7 @@ GatewayIntentBits.DirectMessages
 ]
 });
 
-client.once(‘ready’, () => {
+client.once('ready', () => {
 console.log(Logged in as ${client.user.tag});
 });
 
