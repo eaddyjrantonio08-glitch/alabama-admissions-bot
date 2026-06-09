@@ -1,38 +1,40 @@
 const { Client, GatewayIntentBits } = require('discord.js');
 
 const client = new Client({
-intents: [
-GatewayIntentBits.Guilds,
-GatewayIntentBits.GuildMessages,
-GatewayIntentBits.MessageContent,
-GatewayIntentBits.DirectMessages
-]
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.DirectMessages
+  ]
 });
 
 client.once('ready', () => {
-console.log(Logged in as ${client.user.tag});
+  console.log(`Logged in as ${client.user.tag}`);
 });
 
-client.on(‘messageCreate’, async (message) => {
+client.on('messageCreate', async (message) => {
+  if (message.author.bot) return;
 
-if (message.author.bot) return;
+  if (message.content.startsWith('!accept')) {
+    const args = message.content.split(' ');
 
-if (message.content.startsWith(’!accept’)) {
+    const discordId = args[1];
+    const studentId = args[2];
+    const major = args.slice(3).join(' ');
 
-const args = message.content.split(' ');
-if (args.length < 4) {
-  return message.reply(
-    'Usage: !accept DISCORD_ID STUDENT_ID MAJOR'
-  );
-}
-const discordId = args[1];
-const studentId = args[2];
-const major = args.slice(3).join(' ');
-try {
-  const user = await client.users.fetch(discordId);
-  await user.send(
+    if (!discordId || !studentId || !major) {
+      return message.reply(
+        'Usage: !accept <DiscordID> <StudentID> <Major>'
+      );
+    }
 
-`🎓 UNIVERSITY OF ALABAMA ACCEPTANCE LETTER
+    try {
+      const user = await client.users.fetch(discordId);
+
+      await user.send(`
+🎓 UNIVERSITY OF ALABAMA ACCEPTANCE LETTER
 
 Congratulations!
 
@@ -43,16 +45,15 @@ Major: ${major}
 Classification: Freshman
 Status: Active
 
-Roll Tide!`
-);
+Roll Tide!
+      `);
 
-  await message.reply('✅ Acceptance letter sent.');
-} catch (error) {
-  console.error(error);
-  await message.reply('❌ Failed to send DM.');
-}
-
-}
+      await message.reply('Acceptance letter sent.');
+    } catch (error) {
+      console.error(error);
+      await message.reply('Failed to send DM.');
+    }
+  }
 });
 
 client.login(process.env.TOKEN);
