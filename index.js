@@ -56,5 +56,11 @@ Roll Tide!`
   }
 
 });
+client.on('messageCreate', async (message) => {
 
+  if (message.author.bot) return;
+
+  console.log(message.content);
+
+});
 client.login(process.env.TOKEN);
